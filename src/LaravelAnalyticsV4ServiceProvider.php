@@ -4,7 +4,6 @@ namespace Myoutdeskllc\LaravelAnalyticsV4;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Myoutdeskllc\LaravelAnalyticsV4\Commands\LaravelAnalyticsV4Command;
 
 class LaravelAnalyticsV4ServiceProvider extends PackageServiceProvider
 {
