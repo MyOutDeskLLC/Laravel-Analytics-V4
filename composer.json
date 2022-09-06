@@ -1,24 +1,25 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "myoutdeskllc/laravel-analytics-v4",
+    "description": "GA4 integration for laravel",
     "keywords": [
-        ":vendor_name",
+        "myoutdeskllc",
         "laravel",
-        ":package_slug"
+        "laravel-analytics-v4"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/myoutdeskllc/laravel-analytics-v4",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "JL",
+            "email": "jl@myoutdesk.com",
             "role": "Developer"
         }
     ],
     "require": {
         "php": "^8.1",
-        "spatie/laravel-package-tools": "^1.9.2",
-        "illuminate/contracts": "^9.0"
+        "google/analytics-data": "^0.8.6",
+        "illuminate/contracts": "^9.0",
+        "spatie/laravel-package-tools": "^1.9.2"
     },
     "require-dev": {
         "laravel/pint": "^1.0",
@@ -35,13 +36,13 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories"
+            "Myoutdeskllc\\LaravelAnalyticsV4\\": "src",
+            "Myoutdeskllc\\LaravelAnalyticsV4\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests"
+            "Myoutdeskllc\\LaravelAnalyticsV4\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -51,15 +52,19 @@
         "format": "vendor/bin/pint"
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "phpstan/extension-installer": true,
+            "pestphp/pest-plugin": true
+        }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "Myoutdeskllc\\LaravelAnalyticsV4\\LaravelAnalyticsV4ServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
+                "LaravelAnalyticsV4": "Myoutdeskllc\\LaravelAnalyticsV4\\Facades\\LaravelAnalyticsV4"
             }
         }
     },
