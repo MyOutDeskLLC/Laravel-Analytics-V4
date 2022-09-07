@@ -8,7 +8,14 @@ class LaravelAnalyticsV4Factory
 {
     public static function createFromConfiguration(array $analyticsConfiguration)
     {
-        $credentialConfiguration = array_merge(self::readCredentials($analyticsConfiguration['service_account_credentials_json']), $analyticsConfiguration['cache']);
+        if(is_array($analyticsConfiguration['service_account_credentials_json'])) {
+            $credentialConfiguration = array_merge($analyticsConfiguration['service_account_credentials_json'], $analyticsConfiguration['cache']);
+        } else if(is_string($analyticsConfiguration['service_account_credentials_json'])) {
+            $credentialConfiguration = array_merge(self::readCredentials($analyticsConfiguration['service_account_credentials_json']), $analyticsConfiguration['cache']);
+        } else {
+            // In these cases, the underlying CredentialWrapper from google will fall back to some sane defaults ƒrom the system env
+            $credentialConfiguration = array_merge(['keyFile' => null, $analyticsConfiguration['cache']]);
+        }
 
         $client = new BetaAnalyticsDataClient([
             'credentials' => $credentialConfiguration,

@@ -10,6 +10,7 @@ use Google\Analytics\Data\V1beta\Metric;
 use Google\Analytics\Data\V1beta\OrderBy;
 use Illuminate\Support\Str;
 use Myoutdeskllc\LaravelAnalyticsV4\Exceptions\InvalidDimensionException;
+use Myoutdeskllc\LaravelAnalyticsV4\Exceptions\InvalidMetricException;
 use Myoutdeskllc\LaravelAnalyticsV4\Filters\DimensionFilter;
 
 class RunReportConfiguration
@@ -74,7 +75,7 @@ class RunReportConfiguration
     public function addMetric(string $metric): static
     {
         if (! Str::contains($metric, ':') && ! in_array($metric, AnalyticsMetrics::getAvailableMetrics())) {
-            throw new InvalidDimensionException($metric.' is not a valid dimension or custom dimension for GA4');
+            throw new InvalidMetricException($metric.' is not a valid dimension or custom dimension for GA4');
         }
 
         $this->metrics[] = [
