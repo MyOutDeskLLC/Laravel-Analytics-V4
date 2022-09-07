@@ -21,9 +21,8 @@ class LaravelAnalyticsV4ServiceProvider extends PackageServiceProvider
 
     public function registeringPackage()
     {
-        $this->app->bind(LaravelAnalyticsV4Client::class, function() {
-           $property = config('analytics-v4.property_id');
-
+        $this->app->bind(LaravelAnalyticsV4Client::class, function () {
+            $property = config('analytics-v4.property_id');
         });
     }
 }

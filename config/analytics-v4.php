@@ -9,6 +9,6 @@ return [
     'authCache' => null,
     'authCacheOptions' => [
         'lifetime' => config('analytics_cache_lifetime'),
-        'prefix' => config('analytics_cache_prefix')
-    ]
+        'prefix' => config('analytics_cache_prefix'),
+    ],
 ];

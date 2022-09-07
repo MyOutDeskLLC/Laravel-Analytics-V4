@@ -4,19 +4,16 @@ namespace Myoutdeskllc\LaravelAnalyticsV4\Filters;
 
 use Google\Analytics\Data\V1beta\Filter;
 use Google\Analytics\Data\V1beta\Filter\StringFilter\MatchType;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
-use Myoutdeskllc\LaravelAnalyticsV4\AnalyticsDimensions;
-use Myoutdeskllc\LaravelAnalyticsV4\Exceptions\InvalidDimensionException;
 
 class StringFilter extends DimensionFilter
 {
     public string $method = 'EXACT';
+
     public string $expression = '';
+
     public bool $isCaseSensitive = false;
 
     public array $list = [];
-
 
     public function caseSensitive(bool $caseSensitive = true): static
     {
@@ -73,7 +70,7 @@ class StringFilter extends DimensionFilter
         return $this;
     }
 
-    public function toGoogleTypes() : \Google\Analytics\Data\V1beta\Filter\StringFilter
+    public function toGoogleTypes(): \Google\Analytics\Data\V1beta\Filter\StringFilter
     {
         $nativeStringFilter = new \Google\Analytics\Data\V1beta\Filter\StringFilter();
         $nativeStringFilter->setCaseSensitive($this->isCaseSensitive);
@@ -87,18 +84,18 @@ class StringFilter extends DimensionFilter
     {
         $configuration = [
             'field_name' => $this->dimension,
-            'string_filter' => $this->toGoogleTypes()
+            'string_filter' => $this->toGoogleTypes(),
         ];
 
         return new Filter($configuration);
     }
 
-    public function toArray() : array
+    public function toArray(): array
     {
         return [
             'match_type' => $this->method,
             'value' => $this->expression,
-            'caseSensitive' => $this->isCaseSensitive
+            'caseSensitive' => $this->isCaseSensitive,
         ];
     }
 }
