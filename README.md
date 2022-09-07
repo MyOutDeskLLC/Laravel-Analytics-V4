@@ -61,26 +61,26 @@ $analytics->convertResponseToArray()->runReport($reportConfig);
 ```
 Yay, results:
 ```
-[
   [
     "dimensions" => [
       "country" => "United States",
       "landingPage" => "/",
+      "date" => "20220903",
     ],
     "metrics" => [
-      "sessions" => "294",
+      "sessions" => "113",
     ],
   ],
   [
     "dimensions" => [
       "country" => "United States",
-      "landingPage" => "/signup/",
+      "landingPage" => "/services/",
+      "date" => "20220902",
     ],
     "metrics" => [
-      "sessions" => "192",
+      "sessions" => "110",
     ],
-  ]
-]
+  ],
 ```
 
 ## Testing
