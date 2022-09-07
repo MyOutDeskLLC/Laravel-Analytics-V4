@@ -1,6 +1,3 @@
-
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/support-ukraine.svg?t=1" />](https://supportukrainenow.org)
-
 # GA4 integration for laravel
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/myoutdeskllc/laravel-analytics-v4.svg?style=flat-square)](https://packagist.org/packages/myoutdeskllc/laravel-analytics-v4)
@@ -8,15 +5,7 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/myoutdeskllc/laravel-analytics-v4/Fix%20PHP%20code%20style%20issues?label=code%20style)](https://github.com/myoutdeskllc/laravel-analytics-v4/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/myoutdeskllc/laravel-analytics-v4.svg?style=flat-square)](https://packagist.org/packages/myoutdeskllc/laravel-analytics-v4)
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
-
-## Support us
-
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/Laravel-Analytics-V4.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/Laravel-Analytics-V4)
-
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
+This package offers integration to GA4 properties with some out of the box methods. Based on the original [Spatie integration](https://github.com/spatie/laravel-analytics) for GA3.
 
 ## Installation
 
@@ -24,13 +13,6 @@ You can install the package via composer:
 
 ```bash
 composer require myoutdeskllc/laravel-analytics-v4
-```
-
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --tag="laravel-analytics-v4-migrations"
-php artisan migrate
 ```
 
 You can publish the config file with:
@@ -43,20 +25,62 @@ This is the contents of the published config file:
 
 ```php
 return [
+    'property_id' => config('analytics_property_id'),
+    'service_account_credentials_json' => storage_path('app/analytics/service-account-credentials.json'),
+    'cache_lifetime_in_minutes' => 60 * 24,
+    'enableCaching' => config('analytics_cache'),
+    'authCache' => null,
+    'authCacheOptions' => [
+        'lifetime' => config('analytics_cache_lifetime'),
+        'prefix' => config('analytics_cache_prefix'),
+    ],
 ];
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag="laravel-analytics-v4-views"
 ```
 
 ## Usage
 
 ```php
-$laravelAnalyticsV4 = new Myoutdeskllc\LaravelAnalyticsV4();
-echo $laravelAnalyticsV4->echoPhrase('Hello, Myoutdeskllc!');
+$analytics = new Myoutdeskllc\LaravelAnalyticsV4();
+
+// Prepare a report
+$reportConfig = new \Myoutdeskllc\LaravelAnalyticsV4\RunReportConfiguration();
+$reportConfig->setStartDate('2022-09-01')
+    ->setEndDate('2022-09-30')
+    ->addDimension('country')
+    ->addDimension('landingPage')
+    ->addDimension('date')
+    ->addMetric('sessions');
+
+// Add a new filter to the report to match the country against United States
+$filter = new \Myoutdeskllc\LaravelAnalyticsV4\Filters\StringFilter();
+$filter->setDimension('country')->exactlyMatches('United States');
+$reportConfig->addFilter($filter);
+
+// Run the report, I convert it to an array of data like below
+$analytics->convertResponseToArray()->runReport($reportConfig);
+```
+Yay, results:
+```
+[
+  [
+    "dimensions" => [
+      "country" => "United States",
+      "landingPage" => "/",
+    ],
+    "metrics" => [
+      "sessions" => "294",
+    ],
+  ],
+  [
+    "dimensions" => [
+      "country" => "United States",
+      "landingPage" => "/signup/",
+    ],
+    "metrics" => [
+      "sessions" => "192",
+    ],
+  ]
+]
 ```
 
 ## Testing
@@ -72,10 +96,6 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 ## Contributing
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
-
-## Security Vulnerabilities
-
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
 
 ## Credits
 

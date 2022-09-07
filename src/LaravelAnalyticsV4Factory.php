@@ -8,8 +8,12 @@ class LaravelAnalyticsV4Factory
 {
     public static function createFromConfiguration(array $analyticsConfiguration)
     {
+        $credentialConfiguration = self::readCredentials($analyticsConfiguration['service_account_credentials_json']);
+        $credentialConfiguration['enableCaching'] = $analyticsConfiguration['enableCaching'];
+        $credentialConfiguration['authCacheOptions'] = $analyticsConfiguration['authCacheOptions'];
+
         $client = new BetaAnalyticsDataClient([
-            'credentials' => self::readCredentials($analyticsConfiguration['service_account_credentials_json']),
+            'credentials' => $credentialConfiguration,
         ]);
 
         $analyticsClient = (new LaravelAnalyticsV4Client())

@@ -1,6 +1,5 @@
 <?php
 
-// config for Myoutdeskllc/LaravelAnalyticsV4
 return [
     'property_id' => config('analytics_property_id'),
     'service_account_credentials_json' => storage_path('app/analytics/service-account-credentials.json'),
