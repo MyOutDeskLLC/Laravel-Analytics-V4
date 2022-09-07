@@ -64,7 +64,7 @@ class RunReportConfiguration
 
     public function addDimensions(array $dimensions): static
     {
-        foreach($dimensions as $dimension) {
+        foreach ($dimensions as $dimension) {
             $this->addDimension($dimension);
         }
 
@@ -86,7 +86,7 @@ class RunReportConfiguration
 
     public function addMetrics(array $metrics): static
     {
-        foreach($metrics as $metric) {
+        foreach ($metrics as $metric) {
             $this->addMetric($metric);
         }
 
