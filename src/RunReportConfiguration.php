@@ -62,6 +62,15 @@ class RunReportConfiguration
         return $this;
     }
 
+    public function addDimensions(array $dimensions): static
+    {
+        foreach($dimensions as $dimension) {
+            $this->addDimension($dimension);
+        }
+
+        return $this;
+    }
+
     public function addMetric(string $metric): static
     {
         if (! Str::contains($metric, ':') && ! in_array($metric, AnalyticsMetrics::getAvailableMetrics())) {
@@ -75,45 +84,66 @@ class RunReportConfiguration
         return $this;
     }
 
-    public function addFilter(DimensionFilter $filter)
+    public function addMetrics(array $metrics): static
     {
-        $this->filters[] = $filter;
+        foreach($metrics as $metric) {
+            $this->addMetric($metric);
+        }
+
+        return $this;
     }
 
-    public function addAndFilterGroup(array $dimensionFilters)
+    public function addFilter(DimensionFilter $filter): static
+    {
+        $this->filters[] = $filter;
+
+        return $this;
+    }
+
+    public function addAndFilterGroup(array $dimensionFilters): static
     {
         $this->filters = $dimensionFilters;
         $this->filterMethod = 'and_group';
+
+        return $this;
     }
 
-    public function addOrFilterGroup(array $dimensionFilters)
+    public function addOrFilterGroup(array $dimensionFilters): static
     {
         $this->filters = $dimensionFilters;
         $this->filterMethod = 'or_group';
+
+        return $this;
     }
 
-    public function orderByMetric(string $metricName, bool $desc = false)
+    public function orderByMetric(string $metricName, bool $desc = false): static
     {
         $this->orderByMetrics[$metricName] = [
             'name' => $metricName,
             'desc' => $desc,
         ];
+
+        return $this;
     }
 
-    public function orderByDimension(string $dimensionName, bool $desc = false)
+    public function orderByDimension(string $dimensionName, bool $desc = false): static
     {
         $this->orderByDimensions[$dimensionName] = [
             'name' => $dimensionName,
             'desc' => $desc,
         ];
+
+        return $this;
     }
 
-    public function setLimit(int $limit)
+    public function setLimit(int $limit): static
     {
         $this->limit = $limit;
+
+        return $this;
     }
 
-    public function buildDimensionFilters()
+    protected function buildDimensionFilters()
     {
         if (empty($this->filters)) {
             return null;
@@ -131,7 +161,7 @@ class RunReportConfiguration
         ]);
     }
 
-    public function buildNativeDateRange()
+    protected function buildNativeDateRange()
     {
         return [
             new DateRange([
@@ -141,21 +171,21 @@ class RunReportConfiguration
         ];
     }
 
-    public function buildNativeDimensions()
+    protected function buildNativeDimensions()
     {
         return collect($this->dimensions)->map(function ($dimension) {
             return new Dimension($dimension);
         })->toArray();
     }
 
-    public function buildNativeMetrics()
+    protected function buildNativeMetrics()
     {
         return collect($this->metrics)->map(function ($metric) {
             return new Metric($metric);
         })->toArray();
     }
 
-    public function buildNativeOrderBy()
+    protected function buildNativeOrderBy()
     {
         $metricOrders = collect($this->orderByMetrics)->map(function ($order) {
             return (new OrderBy())->setMetric(new OrderBy\MetricOrderBy([

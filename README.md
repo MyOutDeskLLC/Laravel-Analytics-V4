@@ -5,7 +5,7 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/myoutdeskllc/laravel-analytics-v4/Fix%20PHP%20code%20style%20issues?label=code%20style)](https://github.com/myoutdeskllc/laravel-analytics-v4/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/myoutdeskllc/laravel-analytics-v4.svg?style=flat-square)](https://packagist.org/packages/myoutdeskllc/laravel-analytics-v4)
 
-This package offers integration to GA4 properties with some out of the box methods. Based on the original [Spatie integration](https://github.com/spatie/laravel-analytics) for GA3.
+This package offers integration to GA4 properties with some out of the box methods. Based on the [Spatie integration](https://github.com/spatie/laravel-analytics) for GA3.
 
 ## Installation
 
@@ -27,13 +27,14 @@ This is the contents of the published config file:
 return [
     'property_id' => config('analytics_property_id'),
     'service_account_credentials_json' => storage_path('app/analytics/service-account-credentials.json'),
-    'cache_lifetime_in_minutes' => 60 * 24,
-    'enableCaching' => config('analytics_cache'),
-    'authCache' => null,
-    'authCacheOptions' => [
-        'lifetime' => config('analytics_cache_lifetime'),
-        'prefix' => config('analytics_cache_prefix'),
-    ],
+    'cache' => [
+        'enableCaching' => config('analytics_cache'),
+        'authCache' => null,
+        'authCacheOptions' => [
+            'lifetime' => config('analytics_cache_lifetime'),
+            'prefix' => config('analytics_cache_prefix'),
+        ]
+    ]
 ];
 ```
 
