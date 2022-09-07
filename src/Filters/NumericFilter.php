@@ -112,7 +112,7 @@ class NumericFilter extends DimensionFilter
             ]);
         }
         $filter = new \Google\Analytics\Data\V1beta\Filter\NumericFilter();
-        $filter->setValue(new NumericValue($this->getUnderlyingValue()));
+        $filter->setValue(new NumericValue($this->getUnderlyingValue($this->expression)));
 
         return $filter;
     }
