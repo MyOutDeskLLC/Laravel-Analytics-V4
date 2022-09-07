@@ -2,9 +2,8 @@
 
 namespace Myoutdeskllc\LaravelAnalyticsV4\Tests;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-use Orchestra\Testbench\TestCase as Orchestra;
 use Myoutdeskllc\LaravelAnalyticsV4\LaravelAnalyticsV4ServiceProvider;
+use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {
