@@ -4,7 +4,6 @@ namespace Myoutdeskllc\LaravelAnalyticsV4;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Myoutdeskllc\LaravelAnalyticsV4\Commands\LaravelAnalyticsV4Command;
 
 class LaravelAnalyticsV4ServiceProvider extends PackageServiceProvider
 {
@@ -18,5 +17,13 @@ class LaravelAnalyticsV4ServiceProvider extends PackageServiceProvider
         $package
             ->name('laravel-analytics-v4')
             ->hasConfigFile();
+    }
+
+    public function registeringPackage()
+    {
+        $this->app->bind(LaravelAnalyticsV4Client::class, function() {
+           $property = config('analytics-v4.property_id');
+
+        });
     }
 }
