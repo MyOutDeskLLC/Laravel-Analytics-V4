@@ -20,6 +20,12 @@ class LaravelAnalyticsV4
         $this->client = $client;
     }
 
+    /**
+     * Enable\Disable unwrapping to an array. Disabling this will return original response from the Analytics data v1 api
+     *
+     * @param bool $convert
+     * @return $this
+     */
     public function convertResponseToArray(bool $convert = true): static
     {
         $this->shouldConvertResponseToArray = $convert;
@@ -58,6 +64,12 @@ class LaravelAnalyticsV4
         })->toArray();
     }
 
+    /**
+     * Runs the report with the given configuration
+     *
+     * @param RunReportConfiguration $configuration
+     * @return RunReportResponse|array
+     */
     public function runReport(RunReportConfiguration $configuration): RunReportResponse | array
     {
         if (! $this->shouldConvertResponseToArray) {

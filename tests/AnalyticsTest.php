@@ -1,9 +1,5 @@
 <?php
 
-it('can test', function () {
-    expect(true)->toBeTrue();
-});
-
 it('throws when invalid metrics are requested', function () {
     $runConfiguration = new \Myoutdeskllc\LaravelAnalyticsV4\RunReportConfiguration();
     $runConfiguration->addMetric('modelNumber');
@@ -51,7 +47,7 @@ it('properly generates the required configuration for the underlying analytics l
     $runReport->addDimensions(['country', 'landingPage', 'date']);
     $runReport->addMetric('sessions');
     $runReport->addFilter($filter);
-    $runReport->setLimit(10);
+    $runReport->limit(10);
     $runReport->orderByMetric('sessions', true);
 
     $properGoogleConfiguration = $runReport->toGoogleObject();
@@ -65,7 +61,7 @@ it('properly generates the required configuration for the underlying analytics l
     expect($properGoogleConfiguration['metrics'][0])->toBeInstanceOf(\Google\Analytics\Data\V1beta\Metric::class);
 });
 
-it('produces proper configuration for single filter configurations', function () {
+it('produces proper configuration for single dimension filter configurations', function () {
     // We want to see blog performance
     $filter = new Myoutdeskllc\LaravelAnalyticsV4\Filters\StringFilter();
     $filter->setDimension('landingPage');
@@ -76,12 +72,31 @@ it('produces proper configuration for single filter configurations', function ()
     $runReport->addDimensions(['country', 'landingPage', 'date']);
     $runReport->addMetric('sessions');
     $runReport->addFilter($filter);
-    $runReport->setLimit(10);
+    $runReport->limit(10);
     $runReport->orderByMetric('sessions', true);
 
     $properGoogleConfiguration = $runReport->toGoogleObject();
 
     expect($properGoogleConfiguration['dimensionFilter'])->toBeInstanceOf(\Google\Analytics\Data\V1beta\FilterExpression::class);
+});
+
+it('produces proper configuration for single metric filter configurations', function () {
+    // We want to see blog performance
+    $filter = new Myoutdeskllc\LaravelAnalyticsV4\Filters\NumericFilter();
+    $filter->setMetric('sessions');
+    $filter->greaterThanOrEqual(500);
+
+    $runReport = new Myoutdeskllc\LaravelAnalyticsV4\RunReportConfiguration();
+    $runReport->setStartDate('2022-09-01')->setEndDate('2022-09-30');
+    $runReport->addDimensions(['country', 'landingPage', 'date']);
+    $runReport->addMetric('sessions');
+    $runReport->addFilter($filter);
+    $runReport->limit(10);
+    $runReport->orderByMetric('sessions', true);
+
+    $properGoogleConfiguration = $runReport->toGoogleObject();
+
+    expect($properGoogleConfiguration['metricFilter'])->toBeInstanceOf(\Google\Analytics\Data\V1beta\FilterExpression::class);
 });
 
 it('produces proper configuration for "AND" filter group configurations', function () {
@@ -100,7 +115,7 @@ it('produces proper configuration for "AND" filter group configurations', functi
     $runReport->addMetric('sessions');
     $runReport->addFilter($blogFilter);
     $runReport->addFilter($countryFilter);
-    $runReport->setLimit(10);
+    $runReport->limit(10);
     $runReport->orderByMetric('sessions', true);
 
     $properGoogleConfiguration = $runReport->toGoogleObject();
@@ -129,7 +144,7 @@ it('produces proper configuration for "OR" filter group configurations', functio
     $runReport->addDimensions(['country', 'landingPage', 'date']);
     $runReport->addMetric('sessions');
     $runReport->addOrFilterGroup([$blogFilter, $countryFilter]);
-    $runReport->setLimit(10);
+    $runReport->limit(10);
     $runReport->orderByMetric('sessions', true);
 
     $properGoogleConfiguration = $runReport->toGoogleObject();

@@ -6,7 +6,7 @@ use Google\Analytics\Data\V1beta\Filter;
 use Google\Analytics\Data\V1beta\Filter\BetweenFilter;
 use Google\Analytics\Data\V1beta\NumericValue;
 
-class NumericFilter extends DimensionFilter
+class NumericFilter extends AnalyticsFilter
 {
     protected string $operation = 'EQUAL';
 
@@ -67,14 +67,15 @@ class NumericFilter extends DimensionFilter
 
     private function getUnderlyingValue($number): array
     {
+
         if (is_string($number)) {
             return [
-                'int64Value' => $number,
+                'int64_value' => $number,
             ];
         }
 
         return [
-            'doubleValue' => $number,
+            'double_value' => $number,
         ];
     }
 
@@ -96,7 +97,7 @@ class NumericFilter extends DimensionFilter
     public function getGoogleFilterType()
     {
         $configuration = [
-            'field_name' => $this->dimension,
+            'field_name' => $this->subject,
             'numeric_filter' => $this->toGoogleTypes(),
         ];
 

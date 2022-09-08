@@ -5,7 +5,7 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/myoutdeskllc/laravel-analytics-v4/Fix%20PHP%20code%20style%20issues?label=code%20style)](https://github.com/myoutdeskllc/laravel-analytics-v4/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/myoutdeskllc/laravel-analytics-v4.svg?style=flat-square)](https://packagist.org/packages/myoutdeskllc/laravel-analytics-v4)
 
-This package offers integration to GA4 properties with some out of the box methods. Based on the [Spatie integration](https://github.com/spatie/laravel-analytics) for GA3.
+This package offers integration to GA4 properties with some out of the box methods. Inspired by [Spatie integration](https://github.com/spatie/laravel-analytics) for GA3.
 
 ## Installation
 
@@ -27,6 +27,7 @@ This is the contents of the published config file:
 return [
     'property_id' => config('analytics_property_id'),
     'service_account_credentials_json' => storage_path('app/analytics/service-account-credentials.json'),
+    // This data is passed into the built-in cache mechanism for google's CredentialWrapper
     'cache' => [
         'enableCaching' => config('analytics_cache'),
         'authCache' => null,
@@ -40,24 +41,22 @@ return [
 
 ## Usage
 
+You may configure your own report configuration, or use a pre-built report:
 ```php
 $analytics = new Myoutdeskllc\LaravelAnalyticsV4();
 
-// Prepare a report
-$reportConfig = new \Myoutdeskllc\LaravelAnalyticsV4\RunReportConfiguration();
-$reportConfig->setStartDate('2022-09-01')
-    ->setEndDate('2022-09-30')
-    ->addDimension('country')
-    ->addDimension('landingPage')
-    ->addDimension('date')
-    ->addMetric('sessions');
-
-// Add a new filter to the report to match the country against United States
-$filter = new \Myoutdeskllc\LaravelAnalyticsV4\Filters\StringFilter();
+// Prepare a filter
+$filter = new StringFilter();
 $filter->setDimension('country')->exactlyMatches('United States');
-$reportConfig->addFilter($filter);
 
-// Run the report, I convert it to an array of data like below
+// Prepare a report
+$reportConfig = (new RunReportConfiguration())
+                ->setStartDate('2022-09-01')
+                ->setEndDate('2022-09-30')
+                ->addDimensions(['country', 'landingPage', 'date'])
+                ->addMetric('sessions')
+                ->addFilter($filter);
+
 $analytics->convertResponseToArray()->runReport($reportConfig);
 ```
 Yay, results:
@@ -83,7 +82,12 @@ Yay, results:
     ],
   ],
 ```
+Or Using Prebuilt Report Configurations:
 
+```php
+$lastMonth = Period::months(1);
+$analytics->runReport(PrebuiltRunConfigurations::getMostVisitedPages($lastMonth));
+```
 ## Testing
 
 ```bash
@@ -96,7 +100,7 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 
 ## Contributing
 
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+Submit a PR with passing tests.
 
 ## Credits
 

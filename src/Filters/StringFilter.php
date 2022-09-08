@@ -5,7 +5,7 @@ namespace Myoutdeskllc\LaravelAnalyticsV4\Filters;
 use Google\Analytics\Data\V1beta\Filter;
 use Google\Analytics\Data\V1beta\Filter\StringFilter\MatchType;
 
-class StringFilter extends DimensionFilter
+class StringFilter extends AnalyticsFilter
 {
     public string $method = 'EXACT';
 
@@ -83,7 +83,7 @@ class StringFilter extends DimensionFilter
     public function getGoogleFilterType()
     {
         $configuration = [
-            'field_name' => $this->dimension,
+            'field_name' => $this->subject,
             'string_filter' => $this->toGoogleTypes(),
         ];
 

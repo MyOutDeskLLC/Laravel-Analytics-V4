@@ -11,7 +11,7 @@ use Google\Analytics\Data\V1beta\OrderBy;
 use Illuminate\Support\Str;
 use Myoutdeskllc\LaravelAnalyticsV4\Exceptions\InvalidDimensionException;
 use Myoutdeskllc\LaravelAnalyticsV4\Exceptions\InvalidMetricException;
-use Myoutdeskllc\LaravelAnalyticsV4\Filters\DimensionFilter;
+use Myoutdeskllc\LaravelAnalyticsV4\Filters\AnalyticsFilter;
 
 class RunReportConfiguration
 {
@@ -31,7 +31,7 @@ class RunReportConfiguration
 
     protected int $offset = -1;
 
-    /** @var DimensionFilter[] */
+    /** @var AnalyticsFilter[] */
     protected array $filters = [];
 
     protected string $filterMethod = 'and_group';
@@ -46,6 +46,14 @@ class RunReportConfiguration
     public function setEndDate(string $endDate): static
     {
         $this->endDate = $endDate;
+
+        return $this;
+    }
+
+    public function setDateRange(Period $period): static
+    {
+        $this->startDate = $period->startDate->format('Y-m-d');
+        $this->endDate = $period->endDate->format('Y-m-d');
 
         return $this;
     }
@@ -94,7 +102,7 @@ class RunReportConfiguration
         return $this;
     }
 
-    public function addFilter(DimensionFilter $filter): static
+    public function addFilter(AnalyticsFilter $filter): static
     {
         $this->filters[] = $filter;
 
@@ -137,29 +145,52 @@ class RunReportConfiguration
         return $this;
     }
 
-    public function setLimit(int $limit): static
+    public function limit(int $limit): static
     {
         $this->limit = $limit;
 
         return $this;
     }
 
-    protected function buildDimensionFilters()
+    protected function buildNativeFilters(array $filters)
     {
-        if (empty($this->filters)) {
-            return null;
-        }
-        if (count($this->filters) === 1) {
-            return new FilterExpression(['filter' => $this->filters[0]->getGoogleFilterType()]);
+        if (count($filters) === 1) {
+            return new FilterExpression(['filter' => $filters[0]->getGoogleFilterType()]);
         }
 
         return new FilterExpression([
             $this->filterMethod => new FilterExpressionList([
-                'expressions' => collect($this->filters)->map(function (DimensionFilter $filter) {
+                'expressions' => collect($filters)->map(function (AnalyticsFilter $filter) {
                     return new FilterExpression(['filter' => $filter->getGoogleFilterType()]);
                 })->toArray(),
             ]),
         ]);
+    }
+
+    protected function buildNativeDimensionFilters()
+    {
+        $filters = collect($this->filters)->filter(function(AnalyticsFilter $filter) {
+            return $filter->type === 'dimension';
+        })->toArray();
+
+        if (empty($filters)) {
+            return null;
+        }
+
+        return $this->buildNativeFilters($filters);
+    }
+
+    protected function buildNativeMetricFilters()
+    {
+        $filters = collect($this->filters)->filter(function(AnalyticsFilter $filter) {
+            return $filter->type === 'metric';
+        })->toArray();
+
+        if (empty($this->filters)) {
+            return null;
+        }
+
+        return $this->buildNativeFilters($filters);
     }
 
     protected function buildNativeDateRange()
@@ -209,7 +240,8 @@ class RunReportConfiguration
             'dateRanges' => $this->buildNativeDateRange(),
             'dimensions' => $this->buildNativeDimensions(),
             'metrics' => $this->buildNativeMetrics(),
-            'dimensionFilter' => $this->buildDimensionFilters(),
+            'dimensionFilter' => $this->buildNativeDimensionFilters(),
+            'metricFilter' => $this->buildNativeMetricFilters()
         ];
 
         if (! empty($this->orderByMetrics)) {
