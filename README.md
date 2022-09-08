@@ -5,7 +5,7 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/myoutdeskllc/laravel-analytics-v4/Fix%20PHP%20code%20style%20issues?label=code%20style)](https://github.com/myoutdeskllc/laravel-analytics-v4/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/myoutdeskllc/laravel-analytics-v4.svg?style=flat-square)](https://packagist.org/packages/myoutdeskllc/laravel-analytics-v4)
 
-This package offers integration to GA4 properties with some out of the box methods. Inspired by [Spatie integration](https://github.com/spatie/laravel-analytics) for GA3.
+This package offers integration to GA4 properties with some out of the box methods. Inspired by [Spatie integration](https://github.com/spatie/laravel-analytics) for GA3. Requires Laravel 9+.
 
 ## Installation
 
