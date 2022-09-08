@@ -2,8 +2,8 @@
 
 namespace Myoutdeskllc\LaravelAnalyticsV4\Exceptions;
 
-use Exception;
 use DateTimeInterface;
+use Exception;
 
 class InvalidPeriodException extends Exception
 {

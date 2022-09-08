@@ -67,7 +67,6 @@ class NumericFilter extends AnalyticsFilter
 
     private function getUnderlyingValue($number): array
     {
-
         if (is_string($number)) {
             return [
                 'int64_value' => $number,

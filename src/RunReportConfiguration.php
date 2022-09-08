@@ -169,7 +169,7 @@ class RunReportConfiguration
 
     protected function buildNativeDimensionFilters()
     {
-        $filters = collect($this->filters)->filter(function(AnalyticsFilter $filter) {
+        $filters = collect($this->filters)->filter(function (AnalyticsFilter $filter) {
             return $filter->type === 'dimension';
         })->toArray();
 
@@ -182,7 +182,7 @@ class RunReportConfiguration
 
     protected function buildNativeMetricFilters()
     {
-        $filters = collect($this->filters)->filter(function(AnalyticsFilter $filter) {
+        $filters = collect($this->filters)->filter(function (AnalyticsFilter $filter) {
             return $filter->type === 'metric';
         })->toArray();
 
@@ -241,7 +241,7 @@ class RunReportConfiguration
             'dimensions' => $this->buildNativeDimensions(),
             'metrics' => $this->buildNativeMetrics(),
             'dimensionFilter' => $this->buildNativeDimensionFilters(),
-            'metricFilter' => $this->buildNativeMetricFilters()
+            'metricFilter' => $this->buildNativeMetricFilters(),
         ];
 
         if (! empty($this->orderByMetrics)) {

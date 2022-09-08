@@ -11,6 +11,7 @@ use Myoutdeskllc\LaravelAnalyticsV4\Exceptions\InvalidMetricException;
 abstract class AnalyticsFilter
 {
     public string $subject = '';
+
     public string $type = '';
 
     public function setDimension(string $subject): static
@@ -25,7 +26,7 @@ abstract class AnalyticsFilter
         return $this;
     }
 
-    public function setMetric(string $subject) : static
+    public function setMetric(string $subject): static
     {
         if (! Str::contains($subject, ':') && ! in_array($subject, AnalyticsMetrics::getAvailableMetrics())) {
             throw new InvalidMetricException($subject.' is not a valid dimension or custom dimension for GA4');
