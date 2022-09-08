@@ -18,7 +18,7 @@ composer require myoutdeskllc/laravel-analytics-v4
 You can publish the config file with:
 
 ```bash
-php artisan vendor:publish --tag="laravel-analytics-v4-config"
+php artisan vendor:publish --tag="analytics-v4-config"
 ```
 
 This is the contents of the published config file:
@@ -40,10 +40,21 @@ return [
 ```
 
 ## Usage
+Inside Laravel:
+
+```php
+use Myoutdeskllc\LaravelAnalyticsV4\Period;
+use Myoutdeskllc\LaravelAnalyticsV4\PrebuiltRunConfigurations;
+
+$client = App::make('laravel-analytics-v4');
+$lastMonth = Period::months(1);
+$results = $client->runReport(PrebuiltRunConfigurations::getMostVisitedPages($lastMonth));
+```
 
 You may configure your own report configuration, or use a pre-built report:
 ```php
-$analytics = new Myoutdeskllc\LaravelAnalyticsV4();
+// Use this on the laravel side to get it from the container
+$analytics = App::make('laravel-analytics-v4');
 
 // Prepare a filter
 $filter = new StringFilter();

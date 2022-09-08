@@ -16,13 +16,15 @@ class LaravelAnalyticsV4ServiceProvider extends PackageServiceProvider
          */
         $package
             ->name('laravel-analytics-v4')
-            ->hasConfigFile();
+            ->hasConfigFile('analytics-v4');
     }
 
     public function registeringPackage()
     {
-        $this->app->bind(LaravelAnalyticsV4Client::class, function () {
+        $this->app->bind(LaravelAnalyticsV4::class, function () {
             return LaravelAnalyticsV4Factory::createFromConfiguration(config('analytics-v4'));
         });
+
+        $this->app->alias(LaravelAnalyticsV4::class, 'laravel-analytics-v4');
     }
 }
