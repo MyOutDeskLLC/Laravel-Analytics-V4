@@ -25,15 +25,15 @@ This is the contents of the published config file:
 
 ```php
 return [
-    'property_id' => config('analytics_property_id'),
+    'property_id' => env('ANALYTICS_PROPERTY_ID', 'XXXXXXXXX'),
     'service_account_credentials_json' => storage_path('app/analytics/service-account-credentials.json'),
     // This data is passed into the built-in cache mechanism for google's CredentialWrapper
     'cache' => [
-        'enableCaching' => config('analytics_cache'),
+        'enableCaching' => env('ANALYTICS_CACHE',false),
         'authCache' => null,
         'authCacheOptions' => [
-            'lifetime' => config('analytics_cache_lifetime'),
-            'prefix' => config('analytics_cache_prefix'),
+            'lifetime' => env('ANALYTICS_CACHE_LIFETIME', 60), // you may want to set this higher
+            'prefix' => env('ANALYTICS_CACHE_PREFIX', 'analytics_'),
         ]
     ]
 ];
