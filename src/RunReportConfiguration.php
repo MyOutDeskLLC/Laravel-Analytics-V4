@@ -186,7 +186,7 @@ class RunReportConfiguration
             return $filter->type === 'metric';
         })->toArray();
 
-        if (empty($this->filters)) {
+        if (empty($filters)) {
             return null;
         }
 
