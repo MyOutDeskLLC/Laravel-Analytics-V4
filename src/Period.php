@@ -4,6 +4,7 @@ namespace Myoutdeskllc\LaravelAnalyticsV4;
 
 use DateTimeInterface;
 use Illuminate\Support\Carbon;
+use Myoutdeskllc\LaravelAnalyticsV4\Exceptions\InvalidPeriodException;
 
 /**
  * This class is from the original package this is based on
@@ -18,40 +19,40 @@ class Period
 
     public static function create(DateTimeInterface $startDate, DateTimeInterface $endDate): self
     {
-        return new static($startDate, $endDate);
+        return new self($startDate, $endDate);
     }
 
-    public static function days(int $numberOfDays): static
+    public static function days(int $numberOfDays): self
     {
         $endDate = Carbon::today();
 
         $startDate = Carbon::today()->subDays($numberOfDays)->startOfDay();
 
-        return new static($startDate, $endDate);
+        return new self($startDate, $endDate);
     }
 
-    public static function months(int $numberOfMonths): static
+    public static function months(int $numberOfMonths): self
     {
         $endDate = Carbon::today();
 
         $startDate = Carbon::today()->subMonths($numberOfMonths)->startOfDay();
 
-        return new static($startDate, $endDate);
+        return new self($startDate, $endDate);
     }
 
-    public static function years(int $numberOfYears): static
+    public static function years(int $numberOfYears): self
     {
         $endDate = Carbon::today();
 
         $startDate = Carbon::today()->subYears($numberOfYears)->startOfDay();
 
-        return new static($startDate, $endDate);
+        return new self($startDate, $endDate);
     }
 
     public function __construct(DateTimeInterface $startDate, DateTimeInterface $endDate)
     {
         if ($startDate > $endDate) {
-            throw InvalidPeriod::startDateCannotBeAfterEndDate($startDate, $endDate);
+            throw InvalidPeriodException::startDateCannotBeAfterEndDate($startDate, $endDate);
         }
 
         $this->startDate = $startDate;
