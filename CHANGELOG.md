@@ -2,6 +2,10 @@
 
 All notable changes to `Laravel-Analytics-V4` will be documented in this file.
 
+## 0.0.4 - Bug Fix - 2023-01-16
+
+Fixes an issue where orderBy dimensions could not be used without also having an orderBy for metrics.
+
 ## 0.0.2 - Bug Fix - 2022-09-21
 
 ### 0.0.2
