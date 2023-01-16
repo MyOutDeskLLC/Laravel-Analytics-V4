@@ -70,7 +70,7 @@ class LaravelAnalyticsV4
      * @param  RunReportConfiguration  $configuration
      * @return RunReportResponse|array
      */
-    public function runReport(RunReportConfiguration $configuration): RunReportResponse | array
+    public function runReport(RunReportConfiguration $configuration): RunReportResponse|array
     {
         if (! $this->shouldConvertResponseToArray) {
             return $this->client->runReport($configuration->toGoogleObject());

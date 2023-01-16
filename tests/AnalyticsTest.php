@@ -1,5 +1,8 @@
 <?php
 
+use Myoutdeskllc\LaravelAnalyticsV4\Period;
+use Myoutdeskllc\LaravelAnalyticsV4\RunReportConfiguration;
+
 it('throws when invalid metrics are requested', function () {
     $runConfiguration = new \Myoutdeskllc\LaravelAnalyticsV4\RunReportConfiguration();
     $runConfiguration->addMetric('modelNumber');
@@ -156,4 +159,17 @@ it('produces proper configuration for "OR" filter group configurations', functio
 
     expect($filterExpression->getAndGroup())->toBeEmpty();
     expect($filterExpression->getOrGroup())->not()->toBeEmpty();
+});
+
+it('can generate orderBy from dimensions only', function () {
+    $period = Period::months(1);
+
+    $config = (new RunReportConfiguration())
+        ->setDateRange($period)
+        ->addDimensions(['country', 'landingPage', 'date'])
+        ->addMetrics(['sessions'])
+        ->orderByDimension('country', true)
+        ->toGoogleObject();
+
+    expect($config['orderBys'])->not()->toBeEmpty();
 });
