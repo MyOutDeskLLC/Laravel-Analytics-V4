@@ -244,7 +244,7 @@ class RunReportConfiguration
             'metricFilter' => $this->buildNativeMetricFilters(),
         ];
 
-        if (! empty($this->orderByMetrics)) {
+        if (! empty($this->orderByMetrics) || ! empty($this->orderByDimensions)) {
             $configuration['orderBys'] = $this->buildNativeOrderBy();
         }
 
