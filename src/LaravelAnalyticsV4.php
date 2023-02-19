@@ -23,7 +23,6 @@ class LaravelAnalyticsV4
     /**
      * Enable\Disable unwrapping to an array. Disabling this will return original response from the Analytics data v1 api
      *
-     * @param  bool  $convert
      * @return $this
      */
     public function convertResponseToArray(bool $convert = true): static
@@ -35,9 +34,6 @@ class LaravelAnalyticsV4
 
     /**
      * I dont like the GA return types so I'm going to convert it all to static data
-     *
-     * @param  RunReportResponse  $response
-     * @return array
      */
     public function unwrapToArray(RunReportResponse $response): array
     {
@@ -66,9 +62,6 @@ class LaravelAnalyticsV4
 
     /**
      * Runs the report with the given configuration
-     *
-     * @param  RunReportConfiguration  $configuration
-     * @return RunReportResponse|array
      */
     public function runReport(RunReportConfiguration $configuration): RunReportResponse|array
     {
