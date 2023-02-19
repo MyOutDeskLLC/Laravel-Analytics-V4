@@ -2,6 +2,12 @@
 
 All notable changes to `Laravel-Analytics-V4` will be documented in this file.
 
+## 1.0.0 - Laravel 10 Compatibility Release - 2023-02-19
+
+### 1.0.0 - Laravel 10 Compatibility Release
+
+Updates package to support laravel 9/10.
+
 ## 0.0.4 - Bug Fix - 2023-01-16
 
 Fixes an issue where orderBy dimensions could not be used without also having an orderBy for metrics.
