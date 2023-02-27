@@ -36,6 +36,8 @@ class RunReportConfiguration
 
     protected string $filterMethod = 'and_group';
 
+    protected bool $includeEmptyRows = false;
+
     public function setStartDate(string $startDate): static
     {
         $this->startDate = $startDate;
@@ -46,6 +48,13 @@ class RunReportConfiguration
     public function setEndDate(string $endDate): static
     {
         $this->endDate = $endDate;
+
+        return $this;
+    }
+
+    public function includeEmptyRows(bool $includeEmptyRows = true): static
+    {
+        $this->includeEmptyRows = $includeEmptyRows;
 
         return $this;
     }
@@ -243,6 +252,10 @@ class RunReportConfiguration
             'dimensionFilter' => $this->buildNativeDimensionFilters(),
             'metricFilter' => $this->buildNativeMetricFilters(),
         ];
+
+        if ($this->includeEmptyRows) {
+            $configuration['keepEmptyRows'] = true;
+        }
 
         if (! empty($this->orderByMetrics) || ! empty($this->orderByDimensions)) {
             $configuration['orderBys'] = $this->buildNativeOrderBy();
