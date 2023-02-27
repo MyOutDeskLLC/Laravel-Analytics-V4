@@ -173,3 +173,28 @@ it('can generate orderBy from dimensions only', function () {
 
     expect($config['orderBys'])->not()->toBeEmpty();
 });
+
+it('includes empty rows when requested', function () {
+    $period = Period::months(1);
+
+    $config = (new RunReportConfiguration())
+        ->setDateRange($period)
+        ->addDimensions(['country', 'landingPage', 'date'])
+        ->addMetrics(['sessions'])
+        ->includeEmptyRows()
+        ->toGoogleObject();
+
+    expect($config['keepEmptyRows'])->toBeTrue();
+});
+
+it('does not include empty rows by default', function () {
+    $period = Period::months(1);
+
+    $config = (new RunReportConfiguration())
+        ->setDateRange($period)
+        ->addDimensions(['country', 'landingPage', 'date'])
+        ->addMetrics(['sessions'])
+        ->toGoogleObject();
+
+    expect($config)->not()->toHaveKey('keepEmptyRows');
+});
