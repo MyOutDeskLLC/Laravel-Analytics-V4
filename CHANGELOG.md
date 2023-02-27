@@ -2,6 +2,12 @@
 
 All notable changes to `Laravel-Analytics-V4` will be documented in this file.
 
+## v1.0.1 - KeepEmptyRows Support - 2023-02-27
+
+### v1.0.1 - KeepEmptyRows Support
+
+This small bump adds support for keeping empty rows via https://github.com/MyOutDeskLLC/Laravel-Analytics-V4/pull/17
+
 ## 1.0.0 - Laravel 10 Compatibility Release - 2023-02-19
 
 ### 1.0.0 - Laravel 10 Compatibility Release
