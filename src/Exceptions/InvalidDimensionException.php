@@ -2,6 +2,4 @@
 
 namespace Myoutdeskllc\LaravelAnalyticsV4\Exceptions;
 
-class InvalidDimensionException extends \InvalidArgumentException
-{
-}
+class InvalidDimensionException extends \InvalidArgumentException {}

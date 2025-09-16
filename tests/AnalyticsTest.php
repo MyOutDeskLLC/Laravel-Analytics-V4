@@ -4,12 +4,12 @@ use Myoutdeskllc\LaravelAnalyticsV4\Period;
 use Myoutdeskllc\LaravelAnalyticsV4\RunReportConfiguration;
 
 it('throws when invalid metrics are requested', function () {
-    $runConfiguration = new \Myoutdeskllc\LaravelAnalyticsV4\RunReportConfiguration();
+    $runConfiguration = new \Myoutdeskllc\LaravelAnalyticsV4\RunReportConfiguration;
     $runConfiguration->addMetric('modelNumber');
 })->throws(\Myoutdeskllc\LaravelAnalyticsV4\Exceptions\InvalidMetricException::class);
 
 it('throws when invalid dimensions are requested', function () {
-    $runConfiguration = new \Myoutdeskllc\LaravelAnalyticsV4\RunReportConfiguration();
+    $runConfiguration = new \Myoutdeskllc\LaravelAnalyticsV4\RunReportConfiguration;
     $runConfiguration->addDimension('personality');
 })->throws(\Myoutdeskllc\LaravelAnalyticsV4\Exceptions\InvalidDimensionException::class);
 
@@ -41,11 +41,11 @@ it('can return a new instance of the analytics class from the factory', function
 
 it('properly generates the required configuration for the underlying analytics library', function () {
     // We want to see blog performance
-    $filter = new Myoutdeskllc\LaravelAnalyticsV4\Filters\StringFilter();
+    $filter = new Myoutdeskllc\LaravelAnalyticsV4\Filters\StringFilter;
     $filter->setDimension('landingPage');
     $filter->contains('/blog/');
 
-    $runReport = new Myoutdeskllc\LaravelAnalyticsV4\RunReportConfiguration();
+    $runReport = new Myoutdeskllc\LaravelAnalyticsV4\RunReportConfiguration;
     $runReport->setStartDate('2022-09-01')->setEndDate('2022-09-30');
     $runReport->addDimensions(['country', 'landingPage', 'date']);
     $runReport->addMetric('sessions');
@@ -66,11 +66,11 @@ it('properly generates the required configuration for the underlying analytics l
 
 it('produces proper configuration for single dimension filter configurations', function () {
     // We want to see blog performance
-    $filter = new Myoutdeskllc\LaravelAnalyticsV4\Filters\StringFilter();
+    $filter = new Myoutdeskllc\LaravelAnalyticsV4\Filters\StringFilter;
     $filter->setDimension('landingPage');
     $filter->contains('/blog/');
 
-    $runReport = new Myoutdeskllc\LaravelAnalyticsV4\RunReportConfiguration();
+    $runReport = new Myoutdeskllc\LaravelAnalyticsV4\RunReportConfiguration;
     $runReport->setStartDate('2022-09-01')->setEndDate('2022-09-30');
     $runReport->addDimensions(['country', 'landingPage', 'date']);
     $runReport->addMetric('sessions');
@@ -85,11 +85,11 @@ it('produces proper configuration for single dimension filter configurations', f
 
 it('produces proper configuration for single metric filter configurations', function () {
     // We want to see blog performance
-    $filter = new Myoutdeskllc\LaravelAnalyticsV4\Filters\NumericFilter();
+    $filter = new Myoutdeskllc\LaravelAnalyticsV4\Filters\NumericFilter;
     $filter->setMetric('sessions');
     $filter->greaterThanOrEqual(500);
 
-    $runReport = new Myoutdeskllc\LaravelAnalyticsV4\RunReportConfiguration();
+    $runReport = new Myoutdeskllc\LaravelAnalyticsV4\RunReportConfiguration;
     $runReport->setStartDate('2022-09-01')->setEndDate('2022-09-30');
     $runReport->addDimensions(['country', 'landingPage', 'date']);
     $runReport->addMetric('sessions');
@@ -104,15 +104,15 @@ it('produces proper configuration for single metric filter configurations', func
 
 it('produces proper configuration for "AND" filter group configurations', function () {
     // We want to see blog performance
-    $blogFilter = new Myoutdeskllc\LaravelAnalyticsV4\Filters\StringFilter();
+    $blogFilter = new Myoutdeskllc\LaravelAnalyticsV4\Filters\StringFilter;
     $blogFilter->setDimension('landingPage');
     $blogFilter->contains('/blog/');
 
-    $countryFilter = new Myoutdeskllc\LaravelAnalyticsV4\Filters\StringFilter();
+    $countryFilter = new Myoutdeskllc\LaravelAnalyticsV4\Filters\StringFilter;
     $countryFilter->setDimension('country');
     $countryFilter->exactlyMatches('United States');
 
-    $runReport = new Myoutdeskllc\LaravelAnalyticsV4\RunReportConfiguration();
+    $runReport = new Myoutdeskllc\LaravelAnalyticsV4\RunReportConfiguration;
     $runReport->setStartDate('2022-09-01')->setEndDate('2022-09-30');
     $runReport->addDimensions(['country', 'landingPage', 'date']);
     $runReport->addMetric('sessions');
@@ -134,15 +134,15 @@ it('produces proper configuration for "AND" filter group configurations', functi
 
 it('produces proper configuration for "OR" filter group configurations', function () {
     // We want to see blog performance
-    $blogFilter = new Myoutdeskllc\LaravelAnalyticsV4\Filters\StringFilter();
+    $blogFilter = new Myoutdeskllc\LaravelAnalyticsV4\Filters\StringFilter;
     $blogFilter->setDimension('landingPage');
     $blogFilter->contains('/blog/');
 
-    $countryFilter = new Myoutdeskllc\LaravelAnalyticsV4\Filters\StringFilter();
+    $countryFilter = new Myoutdeskllc\LaravelAnalyticsV4\Filters\StringFilter;
     $countryFilter->setDimension('country');
     $countryFilter->exactlyMatches('United States');
 
-    $runReport = new Myoutdeskllc\LaravelAnalyticsV4\RunReportConfiguration();
+    $runReport = new Myoutdeskllc\LaravelAnalyticsV4\RunReportConfiguration;
     $runReport->setStartDate('2022-09-01')->setEndDate('2022-09-30');
     $runReport->addDimensions(['country', 'landingPage', 'date']);
     $runReport->addMetric('sessions');
@@ -164,7 +164,7 @@ it('produces proper configuration for "OR" filter group configurations', functio
 it('can generate orderBy from dimensions only', function () {
     $period = Period::months(1);
 
-    $config = (new RunReportConfiguration())
+    $config = (new RunReportConfiguration)
         ->setDateRange($period)
         ->addDimensions(['country', 'landingPage', 'date'])
         ->addMetrics(['sessions'])
@@ -177,7 +177,7 @@ it('can generate orderBy from dimensions only', function () {
 it('includes empty rows when requested', function () {
     $period = Period::months(1);
 
-    $config = (new RunReportConfiguration())
+    $config = (new RunReportConfiguration)
         ->setDateRange($period)
         ->addDimensions(['country', 'landingPage', 'date'])
         ->addMetrics(['sessions'])
@@ -190,7 +190,7 @@ it('includes empty rows when requested', function () {
 it('does not include empty rows by default', function () {
     $period = Period::months(1);
 
-    $config = (new RunReportConfiguration())
+    $config = (new RunReportConfiguration)
         ->setDateRange($period)
         ->addDimensions(['country', 'landingPage', 'date'])
         ->addMetrics(['sessions'])
