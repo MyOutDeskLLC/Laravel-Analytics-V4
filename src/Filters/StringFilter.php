@@ -72,7 +72,7 @@ class StringFilter extends AnalyticsFilter
 
     public function toGoogleTypes(): \Google\Analytics\Data\V1beta\Filter\StringFilter
     {
-        $nativeStringFilter = new \Google\Analytics\Data\V1beta\Filter\StringFilter();
+        $nativeStringFilter = new \Google\Analytics\Data\V1beta\Filter\StringFilter;
         $nativeStringFilter->setCaseSensitive($this->isCaseSensitive);
         $nativeStringFilter->setMatchType(MatchType::value($this->method));
         $nativeStringFilter->setValue($this->expression);
