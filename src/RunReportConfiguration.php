@@ -229,13 +229,13 @@ class RunReportConfiguration
     protected function buildNativeOrderBy()
     {
         $metricOrders = collect($this->orderByMetrics)->map(function ($order) {
-            return (new OrderBy())->setMetric(new OrderBy\MetricOrderBy([
+            return (new OrderBy)->setMetric(new OrderBy\MetricOrderBy([
                 'metric_name' => $order['name'],
             ]))->setDesc($order['desc']);
         })->toArray();
 
         $dimensionOrders = collect($this->orderByDimensions)->map(function ($order) {
-            return (new OrderBy())->setDimension(new OrderBy\DimensionOrderBy([
+            return (new OrderBy)->setDimension(new OrderBy\DimensionOrderBy([
                 'dimension_name' => $order['name'],
             ]))->setDesc($order['desc']);
         })->toArray();

@@ -21,7 +21,7 @@ class LaravelAnalyticsV4Factory
             'credentials' => $credentialConfiguration,
         ]);
 
-        $analyticsClient = (new LaravelAnalyticsV4Client())
+        $analyticsClient = (new LaravelAnalyticsV4Client)
             ->setProperty($analyticsConfiguration['property_id'])
             ->setGoogleClient($client);
 

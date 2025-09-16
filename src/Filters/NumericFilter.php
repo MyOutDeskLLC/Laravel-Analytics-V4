@@ -111,7 +111,7 @@ class NumericFilter extends AnalyticsFilter
                 'to_value' => new NumericValue($this->getUnderlyingValue($this->toNumber)),
             ]);
         }
-        $filter = new \Google\Analytics\Data\V1beta\Filter\NumericFilter();
+        $filter = new \Google\Analytics\Data\V1beta\Filter\NumericFilter;
         $filter->setValue(new NumericValue($this->getUnderlyingValue($this->expression)));
 
         return $filter;

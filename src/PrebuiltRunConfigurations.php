@@ -11,7 +11,7 @@ class PrebuiltRunConfigurations
      */
     public static function getMostVisitedPages(Period $period, int $limit = 20): RunReportConfiguration
     {
-        return (new RunReportConfiguration())
+        return (new RunReportConfiguration)
             ->setDateRange($period)
             ->addDimensions(['pagePath'])
             ->addMetric('screenPageViews')
@@ -22,13 +22,13 @@ class PrebuiltRunConfigurations
     /**
      * Returns the most visited pages with a given path
      *
-     * @param  string  $path pass in a path such as /blog/ for everything under blog
+     * @param  string  $path  pass in a path such as /blog/ for everything under blog
      */
     public static function getMostVisitedPagesWithPath(Period $period, string $path, int $limit = 20): RunReportConfiguration
     {
-        $pathFilter = (new StringFilter())->setDimension('pagePath')->contains($path);
+        $pathFilter = (new StringFilter)->setDimension('pagePath')->contains($path);
 
-        return (new RunReportConfiguration())
+        return (new RunReportConfiguration)
             ->setDateRange($period)
             ->addDimensions(['pagePath'])
             ->addMetric('screenPageViews')
@@ -42,7 +42,7 @@ class PrebuiltRunConfigurations
      */
     public static function getTopReferrers(Period $period, int $limit = 0): RunReportConfiguration
     {
-        return (new RunReportConfiguration())
+        return (new RunReportConfiguration)
             ->setDateRange($period)
             ->addDimensions(['pageReferrer'])
             ->addMetric('screenPageViews')
